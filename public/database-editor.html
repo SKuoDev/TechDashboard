@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Database</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell database-editor-shell">
+      <section class="toolbar">
+        <div>
+          <h1>Edit Database</h1>
+          <p id="editor-subtitle">Review and edit saved work stops.</p>
+        </div>
+        <form id="filter-form" class="editor-filter-form">
+          <label>
+            Start date
+            <input id="start-date" type="date">
+          </label>
+          <label>
+            End date
+            <input id="end-date" type="date">
+          </label>
+          <label class="checkbox-label">
+            <input id="show-all" type="checkbox">
+            <span>All records</span>
+          </label>
+          <button type="submit">Apply</button>
+        </form>
+      </section>
+
+      <section class="status-panel" aria-live="polite">
+        <div id="editor-status">Loading database...</div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>Filtered Entries</h2>
+          <span id="filtered-count">0 records</span>
+        </div>
+        <div class="summary-grid editor-summary-grid" aria-label="Filtered database summary">
+          <article class="summary-card">
+            <span>Stops</span>
+            <strong id="filtered-stops">0</strong>
+          </article>
+          <article class="summary-card">
+            <span>Production</span>
+            <strong id="filtered-production">$0.00</strong>
+          </article>
+          <article class="summary-card">
+            <span>Range</span>
+            <strong id="filtered-range">Today</strong>
+          </article>
+        </div>
+        <div id="editor-empty" class="empty-state" hidden>No entries match this filter.</div>
+        <div id="editor-table-wrap" class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Order #</th>
+                <th>Started</th>
+                <th>Completed</th>
+                <th>Service</th>
+                <th>Pay Type</th>
+                <th>Amount</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody id="editor-records-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="/database-editor.js"></script>
+  </body>
+</html>

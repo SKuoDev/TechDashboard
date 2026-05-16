@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Save Files</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell review-shell">
+      <section class="toolbar">
+        <div>
+          <h1>Save Files</h1>
+          <p>Switch save files, create testing files, restore backups, or delete old test files.</p>
+        </div>
+      </section>
+
+      <section class="status-panel" aria-live="polite">
+        <div id="database-status">Loading save files...</div>
+      </section>
+
+      <section class="settings-panel">
+        <article class="review-card">
+          <div class="review-card-heading">
+            <strong>Current Save File</strong>
+            <span id="active-database-label">No save file selected</span>
+          </div>
+          <div class="database-control-body">
+            <label>
+              Save file
+              <select id="database-select"></select>
+            </label>
+            <button id="use-database-button" type="button">Use This Save File</button>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card-heading">
+            <strong>Create Save File</strong>
+            <span>Useful for testing</span>
+          </div>
+          <form id="database-form" class="database-control-body">
+            <label>
+              New save file
+              <input id="database-name" type="text" placeholder="test">
+            </label>
+            <button type="submit">Create</button>
+          </form>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card-heading">
+            <strong>Backup Restore</strong>
+            <span id="backup-count">No backups yet</span>
+          </div>
+          <form id="restore-form" class="database-control-body">
+            <label>
+              Restore backup
+              <select id="backup-select"></select>
+            </label>
+            <button type="submit">Restore</button>
+          </form>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card-heading">
+            <strong>Delete Save File</strong>
+            <span>Backed up before delete</span>
+          </div>
+          <div class="database-control-body">
+            <p>Delete the currently selected save file. The default production save file cannot be deleted.</p>
+            <button id="delete-database-button" class="danger-button" type="button">Delete Selected Save File</button>
+          </div>
+        </article>
+      </section>
+    </main>
+    <script src="/database-controls.js"></script>
+  </body>
+</html>

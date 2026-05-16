@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tech Pay Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell dashboard-shell">
+      <section class="toolbar dashboard-toolbar" aria-label="Dashboard header">
+        <div>
+          <h1 class="visually-hidden">Tech Pay Dashboard</h1>
+          <img class="dashboard-header-graphic" src="graphics/tech_dashboard_header_2.jpg" alt="Tech Dashboard">
+        </div>
+      </section>
+
+      <section class="status-panel" aria-live="polite">
+        <div id="dashboard-status" class="status-pill-row">
+          <span class="status-pill">Save File: <strong id="active-database-pill">Loading...</strong></span>
+          <span class="status-pill">MTD Through: <strong id="active-date-pill">--/--/----</strong></span>
+        </div>
+        <button id="dashboard-review-button" class="review-button unresolved-badge" type="button">Unresolved: 0</button>
+      </section>
+
+      <section class="dashboard-control-panel" aria-label="Dashboard controls">
+        <label>
+          Work day
+          <input id="dashboard-date" type="date">
+        </label>
+        <button id="open-importer" class="dashboard-primary-action" type="button">Import / Manage</button>
+        <button id="open-database-controls" class="secondary-button dashboard-secondary-action" type="button">Save Files</button>
+      </section>
+
+      <section class="summary-grid" aria-label="Month to date summary">
+        <article class="summary-card">
+          <span>MTD Production</span>
+          <strong id="mtd-production">$0.00</strong>
+        </article>
+        <article class="summary-card">
+          <span>MTD Stops</span>
+          <strong id="mtd-stops">0</strong>
+        </article>
+        <article id="mtd-pay-card" class="summary-card interactive-summary-card" role="button" tabindex="0" aria-controls="pay-breakdown-section" aria-expanded="false">
+          <span>MTD Pay</span>
+          <span id="pay-breakdown-indicator" class="card-action-indicator" aria-hidden="true"></span>
+          <strong id="mtd-pay">$0.00</strong>
+        </article>
+        <article class="summary-card">
+          <span>MTD Hourly</span>
+          <strong id="mtd-hourly">$0.00/hr</strong>
+        </article>
+      </section>
+
+      <section class="summary-grid" aria-label="Selected day summary">
+        <article class="summary-card">
+          <span>Day Production</span>
+          <strong id="day-production">$0.00</strong>
+        </article>
+        <article class="summary-card">
+          <span>Day Stops</span>
+          <strong id="day-stops">0</strong>
+        </article>
+        <article class="summary-card">
+          <span>Hours Worked</span>
+          <strong id="day-hours">0.00</strong>
+        </article>
+        <article class="summary-card">
+          <span>Day Pay</span>
+          <strong id="day-pay">$0.00</strong>
+        </article>
+        <article class="summary-card">
+          <span>Day Hourly</span>
+          <strong id="day-hourly">$0.00/hr</strong>
+        </article>
+      </section>
+
+      <section id="last-import-section" class="last-import-panel" hidden>
+        <div class="section-heading">
+          <h2>Last Import</h2>
+          <span id="last-import-time">No imports yet</span>
+        </div>
+        <div class="status-pill-row" aria-label="Last import summary">
+          <span class="status-pill">Save File: <strong id="last-import-database">--</strong></span>
+          <span class="status-pill">Work Date: <strong id="last-import-date">--/--/----</strong></span>
+          <span class="status-pill">Saved: <strong id="last-import-saved">0</strong></span>
+          <span class="status-pill">Unresolved: <strong id="last-import-unresolved">0</strong></span>
+          <span class="status-pill">Duplicates: <strong id="last-import-duplicates">0</strong></span>
+        </div>
+      </section>
+
+      <section id="pay-breakdown-section" hidden>
+        <div class="section-heading">
+          <h2>MTD Pay Breakdown</h2>
+          <span id="pay-breakdown-count">0 pay types</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pay Type</th>
+                <th>Stops</th>
+                <th>Production</th>
+                <th>Pay</th>
+              </tr>
+            </thead>
+            <tbody id="pay-breakdown-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2 id="day-heading">Selected Day Entries</h2>
+          <span id="day-entry-count">0 records</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Name</th>
+                <th>Order #</th>
+                <th>Service</th>
+                <th>Pay Type</th>
+                <th>Amount</th>
+                <th>Pay</th>
+              </tr>
+            </thead>
+            <tbody id="day-records-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <section id="module-panel" class="module-panel" aria-hidden="true">
+      <button id="module-panel-backdrop" class="module-panel-backdrop" type="button" aria-label="Close module"></button>
+      <aside class="module-panel-sheet" role="dialog" aria-modal="true" aria-labelledby="module-panel-title">
+        <div class="module-panel-header">
+          <div>
+            <span>Module</span>
+            <h2 id="module-panel-title">Import / Manage</h2>
+          </div>
+          <button id="close-module-panel" class="secondary-button" type="button">Close</button>
+        </div>
+        <iframe id="module-frame" title="Import and manage work stops"></iframe>
+      </aside>
+    </section>
+
+    <script src="/dashboard.js"></script>
+  </body>
+</html>

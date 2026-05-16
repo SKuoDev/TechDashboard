@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resolve Work Stops</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell review-shell">
+      <section class="toolbar">
+        <div>
+          <h1>Resolve Work Stops</h1>
+          <p id="review-subtitle">Review incomplete screenshot imports.</p>
+        </div>
+      </section>
+
+      <section class="status-panel" aria-live="polite">
+        <div id="review-status">Loading unresolved entries...</div>
+      </section>
+
+      <section id="review-list" class="review-list"></section>
+    </main>
+    <script src="/resolve.js"></script>
+  </body>
+</html>

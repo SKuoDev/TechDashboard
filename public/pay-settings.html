@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pay Type Settings</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell review-shell">
+      <section class="toolbar">
+        <div>
+          <h1>Pay Type Settings</h1>
+          <p>Manage service-to-pay-type mappings used during import.</p>
+        </div>
+      </section>
+
+      <section class="status-panel" aria-live="polite">
+        <div id="settings-status">Loading mappings...</div>
+      </section>
+
+      <section class="settings-panel">
+        <form id="commission-form" class="settings-form">
+          <label>
+            Base commission rate
+            <input id="commission-rate" type="number" min="0" max="100" step="0.01" required>
+          </label>
+          <button type="submit">Save Rate</button>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pay Type</th>
+                <th>Rule</th>
+                <th>Equation</th>
+              </tr>
+            </thead>
+            <tbody id="rules-body"></tbody>
+          </table>
+        </div>
+
+        <form id="mapping-form" class="settings-form">
+          <label>
+            Service type
+            <input id="service-type" type="text" required>
+          </label>
+          <label>
+            Pay type
+            <select id="pay-type" required></select>
+          </label>
+          <button type="submit">Save Mapping</button>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Service Type</th>
+                <th>Pay Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="mapping-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="/pay-settings.js"></script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tech Pay Importer</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="toolbar" aria-label="Import screenshots">
+        <div>
+          <h1>Import Module</h1>
+          <p>Import selected JPG or PNG work stop screenshots and save the extracted details.</p>
+        </div>
+        <select id="database-select" hidden></select>
+        <form id="import-form" class="import-form">
+          <label>
+            Work date
+            <input id="work-date" name="date" type="date" required>
+          </label>
+          <label class="folder-picker">
+            Screenshots
+            <input id="screenshots" name="screenshots" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" multiple>
+            <span id="folder-label">No screenshots selected</span>
+          </label>
+          <label class="folder-picker">
+            iPhone batch
+            <input id="batch-file" name="batch" type="file" accept=".json,application/json">
+            <span id="batch-label">No batch selected</span>
+          </label>
+          <button id="import-button" type="submit">Import</button>
+        </form>
+      </section>
+
+      <section class="status-panel" aria-live="polite">
+        <div id="status">Ready to import screenshots.</div>
+        <div class="status-actions">
+          <button id="database-controls-button" class="secondary-button" type="button">Save Files</button>
+          <button id="pay-settings-button" class="secondary-button" type="button">Pay Type Settings</button>
+          <button id="edit-database-button" class="secondary-button" type="button">Edit Database</button>
+          <button id="review-button" class="review-button" type="button" hidden>Review unresolved</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>Database Synopsis</h2>
+          <span id="synopsis-database">No save file selected</span>
+        </div>
+        <div class="summary-grid import-summary-grid" aria-label="Database summary">
+          <article class="summary-card">
+            <span>Total Stops</span>
+            <strong id="synopsis-records">0</strong>
+          </article>
+          <article class="summary-card">
+            <span>Total Production</span>
+            <strong id="synopsis-production">$0.00</strong>
+          </article>
+          <article class="summary-card">
+            <span>Date Range</span>
+            <strong id="synopsis-date-range">No entries</strong>
+          </article>
+          <article class="summary-card">
+            <span>Unresolved</span>
+            <strong id="synopsis-unresolved">0</strong>
+          </article>
+        </div>
+      </section>
+
+      <section id="latest-import-section" hidden>
+        <div class="section-heading">
+          <h2>Latest Import</h2>
+          <span id="record-count">0 records</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Order #</th>
+                <th>Started</th>
+                <th>Completed</th>
+                <th>Service</th>
+                <th>Pay Type</th>
+                <th>Amount</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody id="records-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "Prod": {
+    "label": "Production",
+    "rule": "commission"
+  },
+  "IS INI": {
+    "label": "Inside Initial",
+    "rule": "initialCommission"
+  },
+  "PS INI": {
+    "label": "Premium Service Initial",
+    "rule": "initialCommission"
+  },
+  "SENTRICON": {
+    "label": "Sentricon",
+    "rule": "sentriconEightPercent"
+  },
+  "SEN INI": {
+    "label": "Sentricon Initial",
+    "rule": "flat45"
+  },
+  "TI": {
+    "label": "Termite Inspection",
+    "rule": "flat10"
+  },
+  "ISR": {
+    "label": "Inside Sales Referral",
+    "rule": "noPay"
+  },
+  "PM": {
+    "label": "Production Management",
+    "rule": "commission"
+  },
+  "MSC": {
+    "label": "MSC",
+    "rule": "commission"
+  },
+  "MSS": {
+    "label": "MSS",
+    "rule": "commission"
+  },
+  "MISC NOPAY": {
+    "label": "Misc No Pay",
+    "rule": "noPay"
+  }
+}
