@@ -4,6 +4,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = ImportViewModel()
     @State private var isExporting = false
+    @State private var didCopyAllOCR = false
 
     var body: some View {
         NavigationStack {
@@ -69,10 +70,22 @@ struct ContentView: View {
             .navigationTitle("Tech Pay")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isExporting = true
+                    Menu {
+                        Button {
+                            isExporting = true
+                        } label: {
+                            Label("Export JSON", systemImage: "square.and.arrow.up")
+                        }
+
+                        Button {
+                            UIPasteboard.general.string = viewModel.allOCRText()
+                            didCopyAllOCR = true
+                        } label: {
+                            Label("Copy all OCR", systemImage: "doc.on.doc")
+                        }
+                        .disabled(viewModel.records.isEmpty)
                     } label: {
-                        Label("Export", systemImage: "square.and.arrow.up")
+                        Image(systemName: "ellipsis.circle")
                     }
                     .disabled(viewModel.records.isEmpty)
                 }
@@ -97,12 +110,16 @@ struct ContentView: View {
                     viewModel.status = error.localizedDescription
                 }
             }
+            .alert("OCR text copied", isPresented: $didCopyAllOCR) {
+                Button("OK", role: .cancel) {}
+            }
         }
     }
 }
 
 struct RecordEditor: View {
     @Binding var record: WorkStopRecord
+    @State private var didCopyOCR = false
 
     var body: some View {
         Form {
@@ -131,6 +148,13 @@ struct RecordEditor: View {
             }
 
             Section("OCR text") {
+                Button {
+                    UIPasteboard.general.string = record.rawText
+                    didCopyOCR = true
+                } label: {
+                    Label("Copy OCR text", systemImage: "doc.on.doc")
+                }
+
                 Text(record.rawText)
                     .font(.footnote)
                     .textSelection(.enabled)
@@ -138,6 +162,9 @@ struct RecordEditor: View {
         }
         .navigationTitle(record.isComplete ? "Ready" : "Review")
         .navigationBarTitleDisplayMode(.inline)
+        .alert("OCR text copied", isPresented: $didCopyOCR) {
+            Button("OK", role: .cancel) {}
+        }
     }
 
     private var payTypes: [String] {

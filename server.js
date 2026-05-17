@@ -321,14 +321,45 @@ function normalizeTime(value) {
   return value.replace(/\s*([AP]M)$/i, " $1").toUpperCase();
 }
 
+function timeToMinutes(value) {
+  const match = normalizeTime(String(value || "").trim()).match(/^(\d{1,2}):(\d{2})\s*([AP]M)$/i);
+  if (!match) return null;
+
+  let hour = Number(match[1]);
+  const minute = Number(match[2]);
+  const marker = match[3].toUpperCase();
+
+  if (!Number.isInteger(hour) || !Number.isInteger(minute)) return null;
+  if (marker === "PM" && hour !== 12) hour += 12;
+  if (marker === "AM" && hour === 12) hour = 0;
+
+  return hour * 60 + minute;
+}
+
+function hasValidTimeRange(record) {
+  const started = timeToMinutes(record.timeStarted);
+  const completed = timeToMinutes(record.timeCompleted);
+  return started !== null && completed !== null && completed > started;
+}
+
 function getMissingFields(record) {
-  return REQUIRED_FIELDS.filter((field) => {
+  const missingFields = REQUIRED_FIELDS.filter((field) => {
     const value = record[field];
     if (field === "date") return !/^\d{4}-\d{2}-\d{2}$/.test(String(value || ""));
     if (field === "amount") return typeof value !== "number" || !Number.isFinite(value);
     if (field === "payType") return !PAY_TYPES.includes(value);
     return !String(value || "").trim();
   });
+
+  if (
+    !missingFields.includes("timeStarted") &&
+    !missingFields.includes("timeCompleted") &&
+    !hasValidTimeRange(record)
+  ) {
+    missingFields.push("timeCompleted");
+  }
+
+  return missingFields;
 }
 
 function withReviewState(record) {

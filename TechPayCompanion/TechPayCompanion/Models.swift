@@ -24,6 +24,9 @@ struct WorkStopRecord: Identifiable, Codable, Hashable {
         if orderNumber.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { fields.append("orderNumber") }
         if timeStarted.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { fields.append("timeStarted") }
         if timeCompleted.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { fields.append("timeCompleted") }
+        if !timeStarted.isEmpty, !timeCompleted.isEmpty, !Self.isChronological(started: timeStarted, completed: timeCompleted) {
+            fields.append("timeCompleted")
+        }
         if serviceType.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { fields.append("serviceType") }
         if payType.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { fields.append("payType") }
         if amount == nil { fields.append("amount") }
@@ -36,6 +39,39 @@ struct WorkStopRecord: Identifiable, Codable, Hashable {
 
     private static func isWorkDate(_ value: String) -> Bool {
         value.range(of: #"^\d{4}-\d{2}-\d{2}$"#, options: .regularExpression) != nil
+    }
+
+    private static func isChronological(started: String, completed: String) -> Bool {
+        guard let startedMinutes = minutesSinceMidnight(started),
+              let completedMinutes = minutesSinceMidnight(completed) else {
+            return false
+        }
+
+        return completedMinutes > startedMinutes
+    }
+
+    private static func minutesSinceMidnight(_ value: String) -> Int? {
+        let normalized = value
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: #"\s*([AP]M)$"#, with: " $1", options: [.regularExpression, .caseInsensitive])
+            .uppercased()
+        guard let match = normalized.range(of: #"^(\d{1,2}):(\d{2})\s*([AP]M)$"#, options: .regularExpression) else {
+            return nil
+        }
+
+        let parts = String(normalized[match])
+            .replacingOccurrences(of: ":", with: " ")
+            .split(separator: " ")
+        guard parts.count == 3,
+              var hour = Int(parts[0]),
+              let minute = Int(parts[1]) else {
+            return nil
+        }
+
+        let marker = String(parts[2])
+        if marker == "PM", hour != 12 { hour += 12 }
+        if marker == "AM", hour == 12 { hour = 0 }
+        return hour * 60 + minute
     }
 }
 

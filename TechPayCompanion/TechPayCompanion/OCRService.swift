@@ -69,6 +69,15 @@ final class ImportViewModel: ObservableObject {
     func exportFileName() -> String {
         "tech-pay-import-\(DateFormatter.fileStamp.string(from: Date())).json"
     }
+
+    func allOCRText() -> String {
+        records.enumerated().map { index, record in
+            """
+            --- Record \(index + 1) ---
+            \(record.rawText)
+            """
+        }.joined(separator: "\n\n")
+    }
 }
 
 struct OCRService {

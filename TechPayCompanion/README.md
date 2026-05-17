@@ -4,10 +4,12 @@ SwiftUI iPhone companion source for creating Tech Pay import-batch JSON files.
 
 ## Setup
 
-1. In Xcode, create a new iOS App named `TechPayCompanion`.
-2. Set the minimum iOS version to iOS 17.
-3. Add the Swift files in `TechPayCompanion/` to the app target.
-4. Add this privacy key to `Info.plist`:
+1. Open `TechPayCompanion.xcodeproj` in Xcode.
+2. Select the `TechPayCompanion` scheme in the top toolbar.
+3. Select an iPhone simulator or connected iPhone.
+4. Press the play button.
+
+If you create a fresh Xcode project instead, set the minimum iOS version to iOS 17, add the Swift files in `TechPayCompanion/` to the app target, and add this privacy key to `Info.plist`:
 
 ```xml
 <key>NSPhotoLibraryUsageDescription</key>
