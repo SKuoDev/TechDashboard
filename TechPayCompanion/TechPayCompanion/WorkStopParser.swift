@@ -115,6 +115,16 @@ struct WorkStopParser {
     }
 
     private func parseStatusTimes(lines: [String]) -> (started: String?, completed: String?) {
+        let directStarted = parseLabeledTime(lines: lines, label: "Time Started")
+        let directCompleted = parseLabeledTime(lines: lines, label: "Time Completed")
+
+        if let directStarted,
+           let directCompleted,
+           directStarted != directCompleted,
+           isChronological(started: directStarted, completed: directCompleted) {
+            return (directStarted, directCompleted)
+        }
+
         let stacked = parseStackedStatusTimes(lines: lines)
         if let stackedStarted = stacked.started,
            let stackedCompleted = stacked.completed,
@@ -123,11 +133,8 @@ struct WorkStopParser {
             return (stackedStarted, stackedCompleted)
         }
 
-        let directStarted = parseLabeledTime(lines: lines, label: "Time Started")
-        let directCompleted = parseLabeledTime(lines: lines, label: "Time Completed")
-
-        let started = directStarted
-        let completed = directCompleted
+        let started = directStarted ?? stacked.started
+        let completed = directCompleted ?? stacked.completed
 
         guard let started, let completed else {
             return (started, completed)
@@ -190,13 +197,14 @@ struct WorkStopParser {
             return nil
         }
 
-        let timeValues = values.compactMap { line -> String? in
-            let time = firstMatch(in: line, pattern: #"([0-9]{1,2}:[0-9]{2}\s*[AP]M)"#)
-            return time.isEmpty ? nil : normalizeTime(time)
+        if let alignedValue = values[safe: valueIndex] {
+            let time = firstMatch(in: alignedValue, pattern: #"([0-9]{1,2}:[0-9]{2}\s*[AP]M)"#)
+            if !time.isEmpty {
+                return normalizeTime(time)
+            }
         }
-        let labelTimeOffset = labels[..<valueIndex].filter { $0 == "Time Started" || $0 == "Time Completed" }.count
 
-        return timeValues[safe: labelTimeOffset]
+        return nil
     }
 
     private func captures(in text: String, pattern: String) -> [String]? {
